@@ -27,7 +27,7 @@
   </parent>
 
   <artifactId>mybatis</artifactId>
-  <version>3.4.6-SNAPSHOT</version>
+  <version>3.4.5-1</version>
   <packaging>jar</packaging>
 
   <name>mybatis</name>
@@ -108,27 +108,27 @@
     </contributor>
   </contributors>
 
-  <scm>
-    <url>http://github.com/mybatis/mybatis-3</url>
-    <connection>scm:git:ssh://github.com/mybatis/mybatis-3.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/mybatis/mybatis-3.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
-  <issueManagement>
-    <system>GitHub Issue Management</system>
-    <url>https://github.com/mybatis/mybatis-3/issues</url>
-  </issueManagement>
-  <ciManagement>
-    <system>Travis CI</system>
-    <url>https://travis-ci.org/mybatis/mybatis-3/</url>
-  </ciManagement>
-  <distributionManagement>
-    <site>
-      <id>gh-pages</id>
-      <name>Mybatis GitHub Pages</name>
-      <url>git:ssh://git@github.com/mybatis/mybatis-3.git?gh-pages#</url>
-    </site>
-  </distributionManagement>
+  <!--<scm>-->
+    <!--<url>http://github.com/mybatis/mybatis-3</url>-->
+    <!--<connection>scm:git:ssh://github.com/mybatis/mybatis-3.git</connection>-->
+    <!--<developerConnection>scm:git:ssh://git@github.com/mybatis/mybatis-3.git</developerConnection>-->
+    <!--<tag>HEAD</tag>-->
+  <!--</scm>-->
+  <!--<issueManagement>-->
+    <!--<system>GitHub Issue Management</system>-->
+    <!--<url>https://github.com/mybatis/mybatis-3/issues</url>-->
+  <!--</issueManagement>-->
+  <!--<ciManagement>-->
+    <!--<system>Travis CI</system>-->
+    <!--<url>https://travis-ci.org/mybatis/mybatis-3/</url>-->
+  <!--</ciManagement>-->
+  <!--<distributionManagement>-->
+    <!--<site>-->
+      <!--<id>gh-pages</id>-->
+      <!--<name>Mybatis GitHub Pages</name>-->
+      <!--<url>git:ssh://git@github.com/mybatis/mybatis-3.git?gh-pages#</url>-->
+    <!--</site>-->
+  <!--</distributionManagement>-->
 
   <properties>
     <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
@@ -264,6 +264,12 @@
       <version>2.5</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>4.1.9.RELEASE</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -273,6 +279,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <testCompilerArgument>${maven.compiler.testCompilerArgument}</testCompilerArgument>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
       <plugin>
@@ -346,6 +354,18 @@
           </excludes>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
 
     <resources>
@@ -374,15 +394,36 @@
     </testResources>
   </build>
 
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>http://127.0.0.1:9999/nexus/content/groups/public</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>releases_local</id>
+      <name>Releases</name>
+      <url>http://127.0.0.1:9999/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots_local</id>
+      <name>Snapshots</name>
+      <url>http://127.0.0.1:9999/nexus/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <profiles>
     <profile>
       <id>java16</id>
       <activation>
-        <jdk>1.6</jdk>
+        <jdk>1.8</jdk>
       </activation>
       <properties>
-        <maven.compiler.testTarget>1.6</maven.compiler.testTarget>
-        <maven.compiler.testSource>1.6</maven.compiler.testSource>
+        <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
+        <maven.compiler.testSource>1.8</maven.compiler.testSource>
         <maven.compiler.testCompilerArgument />
       </properties>
       <build>
@@ -417,11 +458,11 @@
     <profile>
       <id>java17</id>
       <activation>
-        <jdk>1.7</jdk>
+        <jdk>1.8</jdk>
       </activation>
       <properties>
-        <maven.compiler.testTarget>1.7</maven.compiler.testTarget>
-        <maven.compiler.testSource>1.7</maven.compiler.testSource>
+        <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
+        <maven.compiler.testSource>1.8</maven.compiler.testSource>
         <maven.compiler.testCompilerArgument />
       </properties>
       <build>
